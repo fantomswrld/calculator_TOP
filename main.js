@@ -20,7 +20,19 @@ for(let i = 0; i < buttons.length; i++) {
             output.innerHTML = '';
             console.log(inputOperator);
 
-            
+            buttons[i].addEventListener('click', () => {
+                let nextNumber = output.innerHTML;
+                const nextValue = parseInt(nextNumber);
+
+                secondValue = nextValue;
+                
+                buttons[i].addEventListener('click', () => {
+                    if(buttons[i].innerText == '=') {
+                        console.log(secondValue);
+                        console.log(operate(firstValue, inputOperator, secondValue));
+                    }
+                })
+            });
         } else if(buttons[i].classList.contains('special')) {
             if(buttons[i].innerHTML == 'CE') {
                 console.log('clearing')
@@ -28,16 +40,15 @@ for(let i = 0; i < buttons.length; i++) {
             } else if(buttons[i].innerHTML == 'Del') {
                 console.log('removing');
                 remove();
+            } else if(buttons[i].innerHTML == '%') {
+                
             }
-        } else if(buttons[i].id == 'equal') {
+        } else if(buttons[i].innerText == '=') {
             console.log(operate(firstValue, inputOperator, secondValue));
         } else {
             let currentText = buttons[i].innerHTML;
-            // const currentValue = parseInt(currentText);
-            output.innerHTML += currentText;
 
-            // firstValue += currentValue;
-            // console.log(firstValue);
+            output.innerHTML += currentText;
         }
     });
 }
@@ -78,6 +89,10 @@ function divide(a, b) {
     return Math.round(a / b, 2);
 }
 
+function percent(a, b) {
+    return a / b * 100;
+}
+
 function operate(value1, operator, value2) {
     if(operator == '+') {
         add(value1, value2);
@@ -87,6 +102,8 @@ function operate(value1, operator, value2) {
         multiply(value1, value2);
     } else if(operator == '/') {
         divide(value1, value2);
+    } else if(operator == '%') {
+        percent(value1, value2);
     } else {
         return 'Invalid Operator'
     }
