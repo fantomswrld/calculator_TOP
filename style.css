@@ -95,10 +95,10 @@ body {
     background-color: rgb(255, 255, 37);
 }
 
-.buttons-container #equal {
+.buttons-container .equal {
     background-color: rgb(255, 109, 109);
 }
 
-.buttons-container #equal:hover {
+.buttons-container .equal:hover {
     background-color: rgb(255, 62, 62);
 }
