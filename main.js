@@ -1,102 +1,111 @@
-let firstValue = 0
-let secondValue = 0
-let storedSecondValue = 0
-let storedFirstValue = 0
+let currentValue = ''
+let currentValueAsNumber = 0
+let previousValue = ''
+let previousValueAsNumber = 0
 let operator = ''
-let currentValue = 0
+
+const buttonForZero = document.getElementById('zero')
+const buttonForOne = document.getElementById('one')
+const buttonForTwo = document.getElementById('two')
+const buttonForThree = document.getElementById('three')
+const buttonForFour = document.getElementById('four')
+const buttonForFive = document.getElementById('five')
+const buttonForSix = document.getElementById('six')
+const buttonForSeven = document.getElementById('seven')
+const buttonForEight = document.getElementById('eight')
+const buttonForNine = document.getElementById('nine')
+
+const addButton = document.getElementById('add')
+const minusButton = document.getElementById('subtract')
+const multiplyButton = document.getElementById('multiply')
+const divideButton = document.getElementById('divide')
+
+const clearButton = document.getElementById('clear')
+const deleteButton = document.getElementById('clear')
+const percentButton = document.getElementById('clear')
+const negativeButton = document.getElementById('clear')
+
+const equalButton = document.getElementById('equal')
 
 const output = document.querySelector('#output')
+console.log(output)
 
-const numberButtons = document.querySelectorAll('.number')
-const operatorButtons = document.querySelectorAll('.operator')
-const specialButtons = document.querySelectorAll('.special')
-const equalButton = document.querySelector('.equal')
-const decimalButton = document.querySelector('.decimal')
-
-// Store the input of the first number in preparation for calculation
-numberButtons.forEach(firstNumber => firstNumber.addEventListener('click', () => {
-    const firstInput = firstNumber.textContent
-    firstValue = parseInt(output.textContent + firstInput)
-    storedFirstValue = firstValue
-    currentValue = storedFirstValue
-    output.textContent = storedFirstValue
-    console.log(storedFirstValue)
-}))
-
-// store the operator once there has been a first number selected
-operatorButtons.forEach(thisOperator => thisOperator.addEventListener('click', () => {
-    if(firstValue != 0) {
-        output.textContent = ''
-        const currentOperator = thisOperator.textContent
-        operator = currentOperator
-        console.log('the operator is: ' + operator)
-    } else {
-        return
-    }
-}))
-
-equalButton.addEventListener('click', () => {
-    console.log('equal button was pressed')
-    console.log(firstValue)
-    console.log(secondValue)
-
-    if(secondValue != 0) {
-        console.log(storedSecondValue)
-        console.log(storedFirstValue + ' ' + operator + ' ' + storedSecondValue)
-        console.log(operate(storedFirstValue, operator, storedSecondValue))
-    } else {
-        return
-    }
+buttonForZero.addEventListener('click', () => {
+    appendNumberToCurrentValue(0)
 })
 
-specialButtons.forEach(button => button.addEventListener('click', () => {
-    if(button.textContent == 'CE') {
-        clear()
-    } else if(button.textContent == 'Del') {
-        remove()
-    } else if(button.textContent == '%') {
-        output.textContent = percent(firstValue, secondValue)
-    } else if(button.textContent == '-/+') {
-        console.log(currentValue * -1)
-        console.log(makeNegative(currentValue))
-        output.textContent = makeNegative(currentValue)
-    }
-}))
+buttonForOne.addEventListener('click', () => {
+    appendNumberToCurrentValue(1)
+})
 
-// ensuring that we can only get a secondValue if an operator was selected to avoid errors
-if(operator != '') {
-    getSecondValue()
+buttonForTwo.addEventListener('click', () => {
+    appendNumberToCurrentValue(2)
+})
+
+buttonForThree.addEventListener('click', () => {
+    appendNumberToCurrentValue(3)
+})
+
+buttonForFour.addEventListener('click', () => {
+    appendNumberToCurrentValue(4)
+})
+
+buttonForFive.addEventListener('click', () => {
+    appendNumberToCurrentValue(5)
+})
+
+buttonForSix.addEventListener('click', () => {
+    appendNumberToCurrentValue(6)
+})
+
+buttonForSeven.addEventListener('click', () => {
+    appendNumberToCurrentValue(7)
+})
+
+buttonForEight.addEventListener('click', () => {
+    appendNumberToCurrentValue(8)
+})
+
+buttonForNine.addEventListener('click', () => {
+    appendNumberToCurrentValue(9)
+})
+
+addButton.addEventListener('click', () => {
+    setOperator('+')
+})
+
+minusButton.addEventListener('click', () => {
+    setOperator('-')
+})
+
+multiplyButton.addEventListener('click', () => {
+    setOperator('*')
+})
+
+divideButton.addEventListener('click', () => {
+    setOperator('/')
+})
+
+equalButton.addEventListener('click', () => {
+    console.log('The previous value was: ' + previousValueAsNumber)
+    console.log('The current value is: ' + currentValueAsNumber)
+    console.log(operate(previousValueAsNumber, operator, currentValueAsNumber))
+    output.textContent = operate(previousValueAsNumber, operator, currentValueAsNumber)
+})
+
+function appendNumberToCurrentValue(value) {
+    currentValue += value
+    currentValueAsNumber = parseInt(currentValue)
+    output.textContent = currentValueAsNumber
+    console.log(currentValueAsNumber)
 }
 
-function getSecondValue() {
-    numberButtons.forEach(secondNumber => secondNumber.addEventListener('click', () => {
-        const secondInput = secondNumber.textContent
-        secondValue = parseInt(output.textContent + secondInput)
-        storedSecondValue = secondValue
-        currentValue = storedSecondValue
-        output.textContent = storedSecondValue
-        console.log(storedSecondValue)
-    }))
-}
-
-function clear() {
-    output.textContent = ''
-    firstValue = 0
-    secondValue = 0
-    operator = ''
-}
-
-function remove() {
-    let valueLength = output.innerHTML.length
-    console.log(valueLength)
-
-    let lastValue = output.textContent.charAt(valueLength - 1)
-    console.log(lastValue)
-
-    let newValue = output.textContent.replace(lastValue, '')
-    console.log(newValue)
-
-    output.textContent = newValue
+function setOperator(value) {
+    previousValue = currentValue
+    previousValueAsNumber = parseInt(previousValue)
+    operator = value
+    console.log(operator)
+    currentValue = ''
 }
 
 function add(a, b) {
@@ -125,20 +134,14 @@ function makeNegative(a) {
 
 function operate(value1, inputOperator, value2) {
     if(inputOperator == '+') {
-        console.log('adding...')
-        console.log(add(value1, value2))
+        return add(value1, value2)
     } else if(inputOperator == '-') {
-        console.log('subtracting...')
-        console.log(subtract(value1, value2))
-    } else if(inputOperator == 'x') {
-        console.log('multiplying...')
-        console.log(multiply(value1, value2))
+        return subtract(value1, value2)
+    } else if(inputOperator == '*') {
+        return multiply(value1, value2)
     } else if(inputOperator == '/') {
-        console.log('dividing...')
-        console.log(divide(value1, value2))
+        return divide(value1, value2)
     } else {
         return 'Invalid Operator'
     }
-
-    clear()
 }
