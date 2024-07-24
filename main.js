@@ -89,14 +89,6 @@ divideButton.addEventListener('click', () => {
     setOperator('/')
 })
 
-equalButton.addEventListener('click', () => {
-    currentValue = output.textContent
-    currentValueAsNumber = parseFloat(currentValue)
-    
-    output.textContent = operate(previousValueAsNumber, operator, currentValueAsNumber)
-    previousValueInOutput.textContent = `${previousValue} ${operator} ${currentValue} =`
-})
-
 decimalButton.addEventListener('click', () => {
     if(currentValue.indexOf('.') == -1) {
         appendNumberToCurrentValue('.')
@@ -138,6 +130,14 @@ negativeButton.addEventListener('click', () => {
     currentValue = makeNegative(currentValue)
     output.textContent = currentValue
     currentValueAsNumber = currentValue
+})
+
+equalButton.addEventListener('click', () => {
+    currentValue = output.textContent
+    currentValueAsNumber = parseFloat(currentValue)
+    
+    output.textContent = operate(previousValueAsNumber, operator, currentValueAsNumber)
+    previousValueInOutput.textContent = `${previousValue} ${operator} ${currentValue} =`
 })
 
 function appendNumberToCurrentValue(value) {
