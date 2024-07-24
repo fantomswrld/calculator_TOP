@@ -104,6 +104,7 @@ clearButton.addEventListener('click', () => {
     previousValue = ''
     previousValueAsNumber = 0
     operator = ''
+    previousValueInOutput.textContent = ''
 })
 
 deleteButton.addEventListener('click', () => {
