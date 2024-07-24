@@ -148,7 +148,7 @@ function appendNumberToCurrentValue(value) {
 
 function setOperator(value) {
     previousValue = currentValue
-    previousValueAsNumber = parseInt(previousValue)
+    previousValueAsNumber = parseFloat(previousValue)
     operator = value
     previousValueInOutput.textContent = previousValue + ' ' + operator
     currentValue = ''
