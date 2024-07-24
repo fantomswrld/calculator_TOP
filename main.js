@@ -3,6 +3,7 @@ let currentValueAsNumber = 0
 let previousValue = ''
 let previousValueAsNumber = 0
 let operator = ''
+let previousAnswer = 0
 
 const buttonForZero = document.getElementById('zero')
 const buttonForOne = document.getElementById('one')
@@ -21,14 +22,16 @@ const multiplyButton = document.getElementById('multiply')
 const divideButton = document.getElementById('divide')
 
 const clearButton = document.getElementById('clear')
-const deleteButton = document.getElementById('clear')
-const percentButton = document.getElementById('clear')
-const negativeButton = document.getElementById('clear')
+const deleteButton = document.getElementById('delete')
+const percentButton = document.getElementById('percent')
+const negativeButton = document.getElementById('negative')
+
+const decimalButton = document.getElementById('decimal')
 
 const equalButton = document.getElementById('equal')
 
 const output = document.querySelector('#output')
-console.log(output)
+const previousValueInOutput = document.querySelector('#previousValue')
 
 buttonForZero.addEventListener('click', () => {
     appendNumberToCurrentValue(0)
@@ -87,25 +90,69 @@ divideButton.addEventListener('click', () => {
 })
 
 equalButton.addEventListener('click', () => {
-    console.log('The previous value was: ' + previousValueAsNumber)
-    console.log('The current value is: ' + currentValueAsNumber)
-    console.log(operate(previousValueAsNumber, operator, currentValueAsNumber))
+    currentValue = output.textContent
+    currentValueAsNumber = parseFloat(currentValue)
+    
     output.textContent = operate(previousValueAsNumber, operator, currentValueAsNumber)
+    previousValueInOutput.textContent = `${previousValue} ${operator} ${currentValue} =`
+})
+
+decimalButton.addEventListener('click', () => {
+    if(currentValue.indexOf('.') == -1) {
+        appendNumberToCurrentValue('.')
+    } else {
+        return
+    }
+})
+
+clearButton.addEventListener('click', () => {
+    output.textContent = ''
+    currentValue = ''
+    currentValueAsNumber = 0
+    previousValue = ''
+    previousValueAsNumber = 0
+    operator = ''
+})
+
+deleteButton.addEventListener('click', () => {
+    const currentValueLength = currentValue.length
+    const lastValueOfCurrentValue = currentValue.charAt(currentValueLength - 1)
+    const newCurrentValue = currentValue.replace(lastValueOfCurrentValue, '')
+    output.textContent = newCurrentValue
+    currentValueAsNumber = parseFloat(newCurrentValue)
+
+    console.log(newCurrentValue)
+})
+
+percentButton.addEventListener('click', () => {
+    if(currentValue.indexOf('%') == -1) {
+        currentValue += '%'
+        output.textContent = currentValue
+        currentValueAsNumber = parseInt(currentValue) / 100
+    } else {
+        return
+    }
+})
+
+negativeButton.addEventListener('click', () => {
+    currentValue = makeNegative(currentValue)
+    output.textContent = currentValue
+    currentValueAsNumber = currentValue
 })
 
 function appendNumberToCurrentValue(value) {
     currentValue += value
-    currentValueAsNumber = parseInt(currentValue)
-    output.textContent = currentValueAsNumber
-    console.log(currentValueAsNumber)
+    currentValueAsNumber = parseFloat(currentValue)
+    output.textContent = currentValue
 }
 
 function setOperator(value) {
     previousValue = currentValue
     previousValueAsNumber = parseInt(previousValue)
     operator = value
-    console.log(operator)
+    previousValueInOutput.textContent = previousValue + ' ' + operator
     currentValue = ''
+    output.textContent = ''
 }
 
 function add(a, b) {
@@ -125,7 +172,7 @@ function divide(a, b) {
 }
 
 function percent(a, b) {
-    return a / b * 100
+    return (a / b) * 100
 }
 
 function makeNegative(a) {
